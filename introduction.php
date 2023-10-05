@@ -8,7 +8,5 @@
  $introduction = print($age);
  $introduction = print($address);
 
- $introduction = print("$name"+ "$age"+ $address);
-
- print($introduction);
+ print($introduction);  
 ?>
