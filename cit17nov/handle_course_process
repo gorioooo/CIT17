@@ -1,0 +1,29 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Perform input validation as needed
+    $instructor_id = $_POST["instructor_id"];
+    $course_code = $_POST["course_code"];
+    $course_name = $_POST["course_name"];
+
+    // Perform database operations
+    $conn = new mysqli("localhost", "root", "", "your_lastname_sis");
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Insert new course
+    $insertCourseQuery = "INSERT INTO Course (course_code, course_name) VALUES ('$course_code', '$course_name')";
+    $conn->query($insertCourseQuery);
+
+    // Retrieve the course_id of the newly inserted course
+    $newCourseId = $conn->insert_id;
+
+    // Update the Instructor table to associate the course with the instructor
+    $updateInstructorQuery = "UPDATE Instructor SET course_id = $newCourseId WHERE instructor_id = $instructor_id";
+    $conn->query($updateInstructorQuery);
+
+    echo "Course added successfully.";
+
+    $conn->close();
+}
+?>
